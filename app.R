@@ -39,9 +39,9 @@ ui <- fluidPage(
 )
 
 
-server <- function(input, output) {
+server <- function(input, output, session) {
   
-rv <- reactiveValues( df = starwars)
+rv <- reactiveValues()
 
   observeEvent(input$boutton, {
     showNotification(
@@ -51,7 +51,7 @@ rv <- reactiveValues( df = starwars)
     rv$df_filter <- starwars %>%  
       filter(height > input$taille & gender == input$gender_input)  
     
-    rv$plot <- rv$df |>
+    rv$plot <- rv$df_filter |>
       ggplot(aes(x = height)) +
       geom_histogram(
         binwidth = 10, 
